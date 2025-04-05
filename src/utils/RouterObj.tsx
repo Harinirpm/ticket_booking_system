@@ -1,5 +1,5 @@
 const router = {
-    login:'/login',
-    home:'/',
+    login:'/',
+    home:'/home',
 }
 export default router;

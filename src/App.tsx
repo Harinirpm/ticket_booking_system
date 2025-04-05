@@ -1,17 +1,15 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { useRoutes } from 'react-router-dom';
+import Routes from './routes/Routes';
 
-function App() {
- 
-  return (
-    <>
-      <div>
-        <h1>Ticket booking system.</h1>
-       </div>
-    </>
-  )
+interface AppRouteProps {
+  isDarkMode: boolean;
+  toggleDarkMode: () => void;
 }
 
-export default App
+const AppRoute: React.FC<AppRouteProps> = ({ isDarkMode, toggleDarkMode }) => {
+  const element = useRoutes(Routes(isDarkMode, toggleDarkMode));
+  return element;
+};
+
+export default AppRoute;
