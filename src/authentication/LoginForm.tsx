@@ -58,30 +58,30 @@ const StyledInput = styled("input")<{ $inputBg: string; $textColor: string }>`
 
 const StyledLabel = styled("label")<{ $textColor: string }>`
   color: ${(props) => props.$textColor};
-  font-family: 'Poppins';
+  font-family: 'Poppins' !important;
   margin-bottom: 8px;
+  margin-top: 8px;
 `;
 
 const LoginForm: React.FC = () => {
   const [open, setOpen] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const theme = useTheme();
-  const isDarkMode = theme.palette.mode === "dark";
+  const isDarkMode = theme.palette.mode === "light";
 
   const [formData, setFormData] = useState({
     email: "",
-    name: "",
+    username: "",
     password: "",
     role: "user",
+    phonenumber:"",
   });
 
   const navigate = useNavigate();
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setErrorMessage("");
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -93,7 +93,6 @@ const LoginForm: React.FC = () => {
       setErrorMessage("Invalid email or password. Please try again.");
     }
   };
-
   return (
     <Box>
       <StyledDialog
@@ -105,7 +104,6 @@ const LoginForm: React.FC = () => {
           <StyledTypography style={{ color: isDarkMode ? "aliceblue" : "#1c1c1c" }}>
             Login / Signin
           </StyledTypography>
-
           <StyledForm onSubmit={handleSubmit} $bgColor={isDarkMode ? "rgb(75, 75, 75)" : "#fffff"}>
   <StyledLabel $textColor={isDarkMode ? "aliceblue" : "#1c1c1c"}>Email</StyledLabel>
   <StyledInput
@@ -117,18 +115,16 @@ const LoginForm: React.FC = () => {
     $inputBg={isDarkMode ? "rgb(128, 128, 128)" : "#ffffff"}
     $textColor={isDarkMode ? "aliceblue" : "#1c1c1c"}
   />
-
   <StyledLabel $textColor={isDarkMode ? "aliceblue" : "#1c1c1c"}>Username</StyledLabel>
   <StyledInput
     type="text"
-    name="name"
-    value={formData.name}
+    name="username"
+    value={formData.username}
     onChange={handleChange}
     required
     $inputBg={isDarkMode ? "rgb(128, 128, 128)" : "#ffffff"}
     $textColor={isDarkMode ? "aliceblue" : "#1c1c1c"}
   />
-
   <StyledLabel $textColor={isDarkMode ? "aliceblue" : "#1c1c1c"}>Password</StyledLabel>
   <StyledInput
     type="password"
@@ -139,7 +135,16 @@ const LoginForm: React.FC = () => {
     $inputBg={isDarkMode ? "rgb(128, 128, 128)" : "#ffffff"}
     $textColor={isDarkMode ? "aliceblue" : "#1c1c1c"}
   />
-
+  <StyledLabel $textColor={isDarkMode ? "aliceblue" : "#1c1c1c"}>Phone Number</StyledLabel>
+  <StyledInput
+    type="number"
+    name="phonenumber"
+    value={formData.phonenumber}
+    onChange={handleChange}
+    required
+    $inputBg={isDarkMode ? "rgb(128, 128, 128)" : "#ffffff"}
+    $textColor={isDarkMode ? "aliceblue" : "#1c1c1c"}
+  />
   {errorMessage && (
     <Typography
       sx={{
@@ -157,7 +162,6 @@ const LoginForm: React.FC = () => {
     Login
   </StyledButton>
 </StyledForm>
-
         </Box>
       </StyledDialog>
     </Box>
