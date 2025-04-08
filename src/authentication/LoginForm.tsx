@@ -5,6 +5,8 @@ import styles from "../authentication/LoginForm.module.css";
 import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../redux/hooks";
+import { login } from "../redux/slices/authSlice";
 
 const StyledDialog = styled(Dialog)<{ $bgColor: string; $borderColor: string }>`
   .MuiPaper-root {
@@ -68,7 +70,7 @@ const LoginForm: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === "light";
-
+  const dispatch = useAppDispatch();
   const [formData, setFormData] = useState({
     email: "",
     username: "",
@@ -86,8 +88,22 @@ const LoginForm: React.FC = () => {
     e.preventDefault();
     try {
       const response = await axios.post("http://localhost:8080/login", formData);
+      const user = {
+        email: response.data.email,
+        username: response.data.username,
+        password: response.data.password,
+        role: response.data.role,
+        phonenumber: response.data.phonenumber,
+        token: response.data.token,
+      };
+      dispatch(login(user));
       console.log("User Saved", response.data);
-      navigate("/home");
+      if (user.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/home");
+      }
+
     } catch (error: any) {
       console.error("Login failed:", error);
       setErrorMessage("Invalid email or password. Please try again.");
