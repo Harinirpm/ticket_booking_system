@@ -87,7 +87,7 @@ const LoginForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/login", formData);
+      const response = await axios.post("http://localhost:8080/users/login", formData);
       const user = {
         email: response.data.email,
         username: response.data.username,
@@ -105,8 +105,11 @@ const LoginForm: React.FC = () => {
       }
 
     } catch (error: any) {
-      console.error("Login failed:", error);
-      setErrorMessage("Invalid email or password. Please try again.");
+      if (error.response && error.response.status === 401) {
+        setErrorMessage("Invalid credentials. Please try again.");
+      } else {
+        setErrorMessage("An error occurred. Please try again later.");
+      }
     }
   };
   return (
